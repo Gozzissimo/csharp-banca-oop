@@ -53,8 +53,6 @@ namespace csharp_esercizio_banca
             sNomeBanca = sNome;
             lsClienti = new List<Cliente>();
             lsPrestiti = new List<Prestito>();
-
-            //Cliente mioCliente = new Cliente();
         }
 
         public bool AddCliente(string sNome, string sCognome, string sCodiceFiscale, double dStipendio)
@@ -76,8 +74,19 @@ namespace csharp_esercizio_banca
             {
                 return false;
             }
-            
+        }
 
+        public bool AddPrestito(Cliente sIntestatario, double dAmmontarePrestito, double dRataPrestito, DateTime dDataInizio, DateTime dDataFine)
+        {
+            Prestito mioPrestito = new Prestito { 
+                sIntestatario = sIntestatario,
+                dAmmontarePrestito = dAmmontarePrestito,
+                dRataPrestito = dRataPrestito,
+                dDataInizio = dDataInizio,
+                dDataFine = dDataFine
+            };
+            lsPrestiti.Add(mioPrestito);
+            return true;
         }
     }
     public class Cliente
@@ -86,6 +95,15 @@ namespace csharp_esercizio_banca
         public string sCognome { get; set; }
         public string sCodiceFiscale { get; set; }
         public double dStipendio  { get; set; }
+
+        public override string ToString()
+        {
+            return base.Format("Nome: {0}\nCognome: {1}\nCodiceFiscale: {2}\nStipendio: {3}",
+                this.sNome,
+                this.sCognome,
+                this.sCodiceFiscale,
+                this.dStipendio);
+        }
     }
     public class Prestito
     {
@@ -94,6 +112,12 @@ namespace csharp_esercizio_banca
         public double dRataPrestito { get; set; }
         public DateTime dDataInizio { get; set; }
         public DateTime dDataFine { get; set; }
+
+        public int GiorniAllaScadenza()
+        {
+            TimeSpan tsAppo = dDataFine - DateTime.Now;
+            return (int)tsAppo.TotalDays;
+        }
     }
 
     
